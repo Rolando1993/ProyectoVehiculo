@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:fieldset legend="Nuevo">
+                    <h:form>
+                        <p:commandButton value="Nuevo Vehiculo" actionListener="#{vehiculoMB.prepararNuevoVehiculo()}"
+                                         oncomplete="PF('dialogNuevoVehiculo').show();" update=":formNuevoVehiculo"/>
+                    </h:form>
+                </p:fieldset>
+
+                <p:fieldset legend="Lista de Vehiculos">
+                    <h:form id="formMostrarVehiculos">
+                        <p:dataTable id="tablaVehiculos" paginator="true" paginatorPosition="top"
+                                     class="table table-bordered"
+                                     value="#{vehiculoMB.listaVehiculo}" var="item" 
+                                     emptyMessage="No Hay Datos Del Vehiculo"
+                                     rows="5" rowsPerPageTemplate="5,10,15" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Idvehiculo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idvehiculo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Placa"/>
+                                </f:facet>
+                                <h:outputText value="#{item.placa}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Motor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.motor}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Chasis"/>
+                                </f:facet>
+                                <h:outputText value="#{item.chasis}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Modelo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.modelo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fechamatricula"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechamatricula}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Numeropasajerossentados"/>
+                                </f:facet>
+                                <h:outputText value="#{item.numeropasajerossentados}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Numeropasajerospies"/>
+                                </f:facet>
+                                <h:outputText value="#{item.numeropasajerospies}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Pesoseco"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pesoseco}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Pesobruto"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pesobruto}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cantidadpuerta"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cantidadpuerta}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Marca"/>
+                                </f:facet>
+                                <h:outputText value="#{item.marca}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Linea"/>
+                                </f:facet>
+                                <h:outputText value="#{item.linea}"/>
+                            </p:column>
+                            
+
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('dlgmodificar').show();"
+                                                 update=":formModificar">
+                                    <f:setPropertyActionListener target="#{vehiculoMB.vehiculo}" value="#{item}"/>                
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Eliminar">
+                                <p:commandButton value="Eliminar" oncomplete="PF('dlgeliminar').show();"
+                                                 update=":formEliminar">
+                                    <f:setPropertyActionListener target="#{vehiculoMB.vehiculo}" value="#{item}"/>     
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:fieldset>
+
+                <h:form id="formNuevoVehiculo">
+                    <p:dialog id="dlgNuevoVehiculo" header="Ingresar Vehiculo" widgetVar="dialogNuevoVehiculo" resizable="false"
+                              showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Idvehiculo:" for="idvehiculo" />
+                            <p:inputText id="idvehiculo" value="#{vehiculoMB.vehiculo.idvehiculo}" title="Idvehiculo" required="true" requiredMessage="The Idvehiculo field is required."/>
+                            <p:outputLabel value="Placa:" for="placa" />
+                            <p:inputText id="placa" value="#{vehiculoMB.vehiculo.placa}" title="Placa" />
+                            <p:outputLabel value="Motor:" for="motor" />
+                            <p:inputText id="motor" value="#{vehiculoMB.vehiculo.motor}" title="Motor" />
+                            <p:outputLabel value="Chasis:" for="chasis" />
+                            <p:inputText id="chasis" value="#{vehiculoMB.vehiculo.chasis}" title="Chasis" />
+                            <p:outputLabel value="Modelo:" for="modelo" />
+                            <p:inputText id="modelo" value="#{vehiculoMB.vehiculo.modelo}" title="Modelo" />
+                            <p:outputLabel value="Fechamatricula:" for="fechamatricula" />
+                            <p:inputText id="fechamatricula" value="#{vehiculoMB.vehiculo.fechamatricula}" title="Fechamatricula" >
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </p:inputText>
+                            <p:outputLabel value="Numeropasajerossentados:" for="numeropasajerossentados" />
+                            <p:inputText id="numeropasajerossentados" value="#{vehiculoMB.vehiculo.numeropasajerossentados}" title="Numeropasajerossentados" />
+                            <p:outputLabel value="Numeropasajerospies:" for="numeropasajerospies" />
+                            <p:inputText id="numeropasajerospies" value="#{vehiculoMB.vehiculo.numeropasajerospies}" title="Numeropasajerospies" />
+                            <p:outputLabel value="Pesoseco:" for="pesoseco" />
+                            <p:inputText id="pesoseco" value="#{vehiculoMB.vehiculo.pesoseco}" title="Pesoseco" />
+                            <p:outputLabel value="Pesobruto:" for="pesobruto" />
+                            <p:inputText id="pesobruto" value="#{vehiculoMB.vehiculo.pesobruto}" title="Pesobruto" />
+                            <p:outputLabel value="Cantidadpuerta:" for="cantidadpuerta" />
+                            <p:inputText id="cantidadpuerta" value="#{vehiculoMB.vehiculo.cantidadpuerta}" title="Cantidadpuerta" />
+                            <p:outputLabel value="Marca:" for="marca" />
+                            <p:inputText id="marca" value="#{vehiculoMB.vehiculo.marca}" title="Marca" />
+                            <p:outputLabel value="Linea:" for="linea" />
+                            <p:inputText id="linea" value="#{vehiculoMB.vehiculo.linea}" title="Linea" />
+                            <p:outputLabel value="Idconductor:" for="idconductor" />
+                            <p:selectOneMenu id="idconductor" value="#{vehiculoMB.vehiculo.idconductor}" >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{vehiculoMB.vehiculo.idconductor.idconductor}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Idrepresentante:" for="idrepresentante" />
+                            <p:selectOneMenu id="idrepresentante" value="#{vehiculoMB.vehiculo.idrepresentante}" >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{vehiculoMB.vehiculo.idrepresentante.idrepresentante}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{vehiculoMB.registrar()}"
+                                         update=":formMostrarVehiculos:tablaVehiculos" 
+                                         oncomplete="PF('dialogNuevoVehiculo').hide();"/>
+                        <p:commandButton value="Cancelar" oncomplete="PF('dialogNuevoVehiculo').hide();"/>
+                    </p:dialog>
+                </h:form>
+                
+                 <h:form id="formModificar">
+                    <p:dialog id="dlg" header="Modificar Vehiculo" showEffect="explode" height="explode" widgetVar="dlgmodificar" 
+                              modal="true"   resizable="false" minWidth="200">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Idvehiculo:" for="idvehiculo" />
+                            <p:inputText id="idvehiculo" value="#{vehiculoMB.vehiculo.idvehiculo}" title="Idvehiculo" required="true" requiredMessage="The Idvehiculo field is required."/>
+                            <p:outputLabel value="Placa:" for="placa" />
+                            <p:inputText id="placa" value="#{vehiculoMB.vehiculo.placa}" title="Placa" />
+                            <p:outputLabel value="Motor:" for="motor" />
+                            <p:inputText id="motor" value="#{vehiculoMB.vehiculo.motor}" title="Motor" />
+                            <p:outputLabel value="Chasis:" for="chasis" />
+                            <p:inputText id="chasis" value="#{vehiculoMB.vehiculo.chasis}" title="Chasis" />
+                            <p:outputLabel value="Modelo:" for="modelo" />
+                            <p:inputText id="modelo" value="#{vehiculoMB.vehiculo.modelo}" title="Modelo" />
+                            <p:outputLabel value="Fechamatricula:" for="fechamatricula" />
+                            <p:inputText id="fechamatricula" value="#{vehiculoMB.vehiculo.fechamatricula}" title="Fechamatricula" >
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </p:inputText>
+                            <p:outputLabel value="Numeropasajerossentados:" for="numeropasajerossentados" />
+                            <p:inputText id="numeropasajerossentados" value="#{vehiculoMB.vehiculo.numeropasajerossentados}" title="Numeropasajerossentados" />
+                            <p:outputLabel value="Numeropasajerospies:" for="numeropasajerospies" />
+                            <p:inputText id="numeropasajerospies" value="#{vehiculoMB.vehiculo.numeropasajerospies}" title="Numeropasajerospies" />
+                            <p:outputLabel value="Pesoseco:" for="pesoseco" />
+                            <p:inputText id="pesoseco" value="#{vehiculoMB.vehiculo.pesoseco}" title="Pesoseco" />
+                            <p:outputLabel value="Pesobruto:" for="pesobruto" />
+                            <p:inputText id="pesobruto" value="#{vehiculoMB.vehiculo.pesobruto}" title="Pesobruto" />
+                            <p:outputLabel value="Cantidadpuerta:" for="cantidadpuerta" />
+                            <p:inputText id="cantidadpuerta" value="#{vehiculoMB.vehiculo.cantidadpuerta}" title="Cantidadpuerta" />
+                            <p:outputLabel value="Marca:" for="marca" />
+                            <p:inputText id="marca" value="#{vehiculoMB.vehiculo.marca}" title="Marca" />
+                            <p:outputLabel value="Linea:" for="linea" />
+                            <p:inputText id="linea" value="#{vehiculoMB.vehiculo.linea}" title="Linea" />
+                            <p:outputLabel value="Idconductor:" for="idconductor" />
+                            <p:selectOneMenu id="idconductor" value="#{vehiculoMB.vehiculo.idconductor}" >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{fixme}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Idrepresentante:" for="idrepresentante" />
+                            <p:selectOneMenu id="idrepresentante" value="#{vehiculoMB.vehiculo.idrepresentante}" >
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{fixme}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <center><p:commandButton value="Modificar" update=":formMostrarVehiculos:tablaVehiculos"
+                                                 action="#{vehiculoMB.actualizar()}"
+                                                 oncomplete="PF('dlgmodificar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton value="Cancelar" oncomplete="PF('dlgmodificar').hide();"/></center>
+                    </p:dialog>
+                </h:form>
+                
+                 <h:form id="formEliminar">
+                    <p:dialog id="dlg2" header="Eliminar Vehiculo" showEffect="explode" hideEffect="bounce"
+                              widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200">
+
+                        <p:outputLabel value="Desea Eliminar El Vehiculo "/>
+                        <p:commandButton value="Si" update=":formMostrarVehiculos:tablaVehiculos"
+                                         action="#{vehiculoMB.eliminar()}"
+                                         oncomplete="PF('dlgeliminar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p:commandButton value="No" oncomplete="PF('dlgeliminar').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

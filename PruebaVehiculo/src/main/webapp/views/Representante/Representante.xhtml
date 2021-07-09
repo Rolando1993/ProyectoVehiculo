@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:fieldset legend="Nuevo">
+                    <h:form>
+                        <p:commandButton value="Nuevo Representante" actionListener="#{representanteMB.prepararNuevoRepresentante()}"
+                                         oncomplete="PF('dialogNuevoRepresentante').show();" update=":formNuevoRepresentante"/>
+                    </h:form>
+                </p:fieldset>
+
+                    <p:fieldset legend="Lista de Representantes">
+                        <h:form id="formMostrarRepresentantes">
+                            <p:dataTable id="tablaRepresentantes" paginator="true" paginatorPosition="top"
+                                         class="table table-bordered"
+                                         value="#{representanteMB.listaRepresentante}" var="item" 
+                                         emptyMessage="No Hay Datos Del Representante"
+                                         rows="5" rowsPerPageTemplate="5,10,15" 
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Idrepresentante"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idrepresentante}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Tipo"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.tipo}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Numeroidentificacion"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.numeroidentificacion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Direccion"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.direccion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Ciudad"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.ciudad}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Departamento"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.departamento}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Pais"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.pais}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Telefono"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.telefono}"/>
+                                </p:column>
+
+                                <p:column headerText="Modificar">
+                                    <p:commandButton value="Modificar" oncomplete="PF('dlgmodificar').show();"
+                                                     update=":formModificar">
+                                        <f:setPropertyActionListener target="#{representanteMB.representante}" value="#{item}"/>                
+                                    </p:commandButton>
+                                </p:column>
+
+                                <p:column headerText="Eliminar">
+                                    <p:commandButton value="Eliminar" oncomplete="PF('dlgeliminar').show();"
+                                                     update=":formEliminar">
+                                        <f:setPropertyActionListener target="#{representanteMB.representante}" value="#{item}"/>     
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:fieldset>
+
+                    <h:form id="formNuevoRepresentante">
+                        <p:dialog id="dlgNuevoRepresentante" header="Ingresar Representante" widgetVar="dialogNuevoRepresentante" resizable="false"
+                                  showEffect="explode" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">
+                                <p:outputLabel value="Tipo:" for="tipo" />
+                                <p:inputText id="tipo" value="#{representanteMB.representante.tipo}" title="Tipo" />
+                                <p:outputLabel value="Numeroidentificacion:" for="numeroidentificacion" />
+                                <p:inputText id="numeroidentificacion" value="#{representanteMB.representante.numeroidentificacion}" title="Numeroidentificacion" />
+                                <p:outputLabel value="Nombre:" for="nombre" />
+                                <p:inputText id="nombre" value="#{representanteMB.representante.nombre}" title="Nombre" />
+                                <p:outputLabel value="Direccion:" for="direccion" />
+                                <p:inputText id="direccion" value="#{representanteMB.representante.direccion}" title="Direccion" />
+                                <p:outputLabel value="Ciudad:" for="ciudad" />
+                                <p:inputText id="ciudad" value="#{representanteMB.representante.ciudad}" title="Ciudad" />
+                                <p:outputLabel value="Departamento:" for="departamento" />
+                                <p:inputText id="departamento" value="#{representanteMB.representante.departamento}" title="Departamento" />
+                                <p:outputLabel value="Pais:" for="pais" />
+                                <p:inputText id="pais" value="#{representanteMB.representante.pais}" title="Pais" />
+                                <p:outputLabel value="Telefono:" for="telefono" />
+                                <p:inputText id="telefono" value="#{representanteMB.representante.telefono}" title="Telefono" />
+                            </p:panelGrid>
+                            <p:commandButton value="Guardar" actionListener="#{representanteMB.registrar()}"
+                                             update=":formMostrarRepresentantes:tablaRepresentantes" 
+                                             oncomplete="PF('dialogNuevoRepresentante').hide();"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('dialogNuevoRepresentante').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+
+                    <h:form id="formModificar">
+                        <p:dialog id="dlg" header="Modificar Representante" showEffect="explode" height="explode" widgetVar="dlgmodificar" 
+                                  modal="true"   resizable="false" minWidth="200">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">
+                                <p:outputLabel value="Tipo:" for="tipo" />
+                                <p:inputText id="tipo" value="#{representanteMB.representante.tipo}" title="Tipo" />
+                                <p:outputLabel value="Numeroidentificacion:" for="numeroidentificacion" />
+                                <p:inputText id="numeroidentificacion" value="#{representanteMB.representante.numeroidentificacion}" title="Numeroidentificacion" />
+                                <p:outputLabel value="Nombre:" for="nombre" />
+                                <p:inputText id="nombre" value="#{representanteMB.representante.nombre}" title="Nombre" />
+                                <p:outputLabel value="Direccion:" for="direccion" />
+                                <p:inputText id="direccion" value="#{representanteMB.representante.direccion}" title="Direccion" />
+                                <p:outputLabel value="Ciudad:" for="ciudad" />
+                                <p:inputText id="ciudad" value="#{representanteMB.representante.ciudad}" title="Ciudad" />
+                                <p:outputLabel value="Departamento:" for="departamento" />
+                                <p:inputText id="departamento" value="#{representanteMB.representante.departamento}" title="Departamento" />
+                                <p:outputLabel value="Pais:" for="pais" />
+                                <p:inputText id="pais" value="#{representanteMB.representante.pais}" title="Pais" />
+                                <p:outputLabel value="Telefono:" for="telefono" />
+                                <p:inputText id="telefono" value="#{representanteMB.representante.telefono}" title="Telefono" />
+                            </p:panelGrid>
+                            <center><p:commandButton value="Modificar" update=":formMostrarRepresentantes:tablaRepresentantes"
+                                                     action="#{representanteMB.actualizar()}"
+                                                     oncomplete="PF('dlgmodificar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <p:commandButton value="Cancelar" oncomplete="PF('dlgmodificar').hide();"/></center>
+                        </p:dialog>
+                    </h:form>
+
+                    <h:form id="formEliminar">
+                        <p:dialog id="dlg2" header="Eliminar Representante" showEffect="explode" hideEffect="bounce"
+                                  widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200">
+
+                            <p:outputLabel value="Desea Eliminar El Representante "/>
+                            <p:commandButton value="Si" update=":formMostrarRepresentantes:tablaRepresentantes"
+                                             action="#{representanteMB.eliminar()}"
+                                             oncomplete="PF('dlgeliminar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton value="No" oncomplete="PF('dlgeliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

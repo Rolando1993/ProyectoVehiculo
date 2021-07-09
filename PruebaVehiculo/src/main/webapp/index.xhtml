@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Empresa de Vehiculos</title>
+    </h:head>
+    <script type="text/javascript">
+        function handleLoginRequest(xhr, status, args) {
+            if (args.validationFailed || !args.loggedIn) {
+                PF('dlg').jq.effect("shake", {times: 5}, 100);
+            } else {
+                PF('dlg').hide();
+                $('#loginLink').fadeOut();
+            }
+        }
+    </script>
+    <h:body>
+        <h:form>
+            <center>
+                <h1>Bienvenidos al Sistema de Empresa de Vehiculos</h1>
+            </center>
+            <br/>
+            <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+                <center>
+                    <img src="imagenes/data.jpg" alt=""  width="270" height="230"/>
+                </center>
+            </h:outputLink>
+            <center><table>
+                    <tr><td style="font-family: raleway; font-size: 20px">Sistema de Empresa de Vehiculos</td></tr>
+                    <tr/>
+                    <tr>
+                    </tr>
+                </table></center>
+
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+            <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="username" value="Usuario:" />
+                    <p:inputText id="username" value="#{loginMB.username}" required="true" label="username" />
+
+                    <h:outputLabel for="password" value="Password:" />
+                    <p:password id="password" value="#{loginMB.password}" required="true" label="password" />
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Ingresar" update="growl" action="plantilla/plantilla?faces-redirect=true"
+                                         oncomplete="handleLoginRequest(xhr, status, args)" />
+                    </f:facet>  
+                </h:panelGrid>
+            </p:dialog>    
+        </h:form>
+    </h:body>
+</html>
+

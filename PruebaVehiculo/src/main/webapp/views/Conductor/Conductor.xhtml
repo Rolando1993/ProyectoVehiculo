@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:fieldset legend="Nuevo">
+                    <h:form>
+                        <p:commandButton value="Nuevo Conductor" actionListener="#{conductorMB.prepararNuevoConductor()}"
+                                         oncomplete="PF('dialogNuevoConductor').show();" update=":formNuevoConductor"/>
+                    </h:form>
+                </p:fieldset>
+
+                <p:fieldset legend="Lista de Conductores">
+                    <h:form id="formMostrarConductores">
+                        <!--<h1><h:outputText value="List"/></h1>-->
+                        <p:dataTable id="tablaConductores" paginator="true" paginatorPosition="top"
+                                     class="table table-bordered"
+                                     value="#{conductorMB.listaConductor}" var="item" 
+                                     emptyMessage="No Hay Datos Del Conductor"
+                                     rows="5" rowsPerPageTemplate="5,10,15" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros">
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Idconductor"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idconductor}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tipo"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tipo}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Numeroidentificacion"/>
+                                </f:facet>
+                                <h:outputText value="#{item.numeroidentificacion}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Direccion"/>
+                                </f:facet>
+                                <h:outputText value="#{item.direccion}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Ciudad"/>
+                                </f:facet>
+                                <h:outputText value="#{item.ciudad}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Departamento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.departamento}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Pais"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pais}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Telefono"/>
+                                </f:facet>
+                                <h:outputText value="#{item.telefono}"/>
+                            </p:column>
+
+                            <p:column headerText="Modificar">
+                                <p:commandButton value="Modificar" oncomplete="PF('dlgmodificar').show();"
+                                                 update=":formModificar">
+                                    <f:setPropertyActionListener target="#{conductorMB.conductor}" value="#{item}"/>                
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Eliminar">
+                                <p:commandButton value="Eliminar" oncomplete="PF('dlgeliminar').show();"
+                                                 update=":formEliminar">
+                                    <f:setPropertyActionListener target="#{conductorMB.conductor}" value="#{item}"/>     
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:fieldset>
+
+                <h:form id="formNuevoConductor">
+                    <p:dialog id="dlgNuevoConductor" header="Ingresar Conductor" widgetVar="dialogNuevoConductor" resizable="false"
+                              showEffect="explode" hideEffect="explode" modal="true">
+                        <!--<h1><h:outputText value="Create/Edit"/></h1>-->
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Tipo:" for="tipo" />
+                            <p:inputText id="tipo" value="#{conductorMB.conductor.tipo}" title="Tipo" />
+                            <p:outputLabel value="Numeroidentificacion:" for="numeroidentificacion" />
+                            <p:inputText id="numeroidentificacion" value="#{conductorMB.conductor.numeroidentificacion}" title="Numeroidentificacion" />
+                            <p:outputLabel value="Nombre:" for="nombre" />
+                            <p:inputText id="nombre" value="#{conductorMB.conductor.nombre}" title="Nombre" />
+                            <p:outputLabel value="Direccion:" for="direccion" />
+                            <p:inputText id="direccion" value="#{conductorMB.conductor.direccion}" title="Direccion" />
+                            <p:outputLabel value="Ciudad:" for="ciudad" />
+                            <p:inputText id="ciudad" value="#{conductorMB.conductor.ciudad}" title="Ciudad" />
+                            <p:outputLabel value="Departamento:" for="departamento" />
+                            <p:inputText id="departamento" value="#{conductorMB.conductor.departamento}" title="Departamento" />
+                            <p:outputLabel value="Pais:" for="pais" />
+                            <p:inputText id="pais" value="#{conductorMB.conductor.pais}" title="Pais" />
+                            <p:outputLabel value="Telefono:" for="telefono" />
+                            <p:inputText id="telefono" value="#{conductorMB.conductor.telefono}" title="Telefono" />
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{conductorMB.registrar()}"
+                                         update=":formMostrarConductores:tablaConductores" 
+                                         oncomplete="PF('dialogNuevoConductor').hide();"/>
+                        <p:commandButton value="Cancelar" oncomplete="PF('dialogNuevoConductor').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+
+
+
+                <h:form id="formModificar">
+                    <p:dialog id="dlg" header="Modificar Conductor" showEffect="explode" height="explode" widgetVar="dlgmodificar" 
+                              modal="true"   resizable="false" minWidth="200">
+                        <!--<h1><h:outputText value="Create/Edit"/></h1>-->
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Tipo:" for="tipo" />
+                            <p:inputText id="tipo" value="#{conductorMB.conductor.tipo}" title="Tipo" />
+                            <p:outputLabel value="Numeroidentificacion:" for="numeroidentificacion" />
+                            <p:inputText id="numeroidentificacion" value="#{conductorMB.conductor.numeroidentificacion}" title="Numeroidentificacion" />
+                            <p:outputLabel value="Nombre:" for="nombre" />
+                            <p:inputText id="nombre" value="#{conductorMB.conductor.nombre}" title="Nombre" />
+                            <p:outputLabel value="Direccion:" for="direccion" />
+                            <p:inputText id="direccion" value="#{conductorMB.conductor.direccion}" title="Direccion" />
+                            <p:outputLabel value="Ciudad:" for="ciudad" />
+                            <p:inputText id="ciudad" value="#{conductorMB.conductor.ciudad}" title="Ciudad" />
+                            <p:outputLabel value="Departamento:" for="departamento" />
+                            <p:inputText id="departamento" value="#{conductorMB.conductor.departamento}" title="Departamento" />
+                            <p:outputLabel value="Pais:" for="pais" />
+                            <p:inputText id="pais" value="#{conductorMB.conductor.pais}" title="Pais" />
+                            <p:outputLabel value="Telefono:" for="telefono" />
+                            <p:inputText id="telefono" value="#{conductorMB.conductor.telefono}" title="Telefono" />
+                        </p:panelGrid>
+                        <center><p:commandButton value="Modificar" update=":formMostrarConductores:tablaConductores"
+                                                 action="#{conductorMB.actualizar()}"
+                                                 oncomplete="PF('dlgmodificar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p:commandButton value="Cancelar" oncomplete="PF('dlgmodificar').hide();"/></center>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="formEliminar">
+                    <p:dialog id="dlg2" header="Eliminar Conductor" showEffect="explode" hideEffect="bounce"
+                              widgetVar="dlgeliminar" modal="true" resizable="false" minWidth="200">
+
+                        <p:outputLabel value="Desea Eliminar El Conductor "/>
+                        <p:commandButton value="Si" update=":formMostrarConductores:tablaConductores"
+                                         action="#{conductorMB.eliminar()}"
+                                         oncomplete="PF('dlgeliminar').hide();"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p:commandButton value="No" oncomplete="PF('dlgeliminar').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
